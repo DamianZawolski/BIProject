@@ -38,3 +38,11 @@ Instrumentalness: predicts whether a track contains no vocals. "Ooh" and "aah" s
 * **official_video**: boolean value that indicates if the video found is the official video of the song.
 
 
+#### **About second dataset**
+* **name** - stage name of the artist
+* **facebook** - url of Facebook fan page of the artist
+* **twitter** - url to artist's Twitter profile
+* **website** - url of artist's website
+* **genre** - artists main genre
+* **mtv** - url to artists bio @ MTV website
+
