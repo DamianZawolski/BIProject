@@ -6,6 +6,7 @@ Project analysing music data from YT and Spotify
 ## **2 data sources**
 * dataset on [Kaggle💽](https://www.kaggle.com/datasets/salvatorerastelli/spotify-and-youtube) with streaming numbers plus acoustic metrics of each song etc.
 * datasets on [Github💜](https://gist.github.com/mbejda/9912f7a366c62c1f296c) about artist's genre, website, twitter and facebook pages (5 *csv* files 1000 records each)
+* dataset on [Kaggle💽](https://www.kaggle.com/datasets/rodolfofigueroa/spotify-12m-songs) with informations about 1.2 milion songs (including release date)
 
 
 #### **About Kaggle Dataset**
