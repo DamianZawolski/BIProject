@@ -103,25 +103,30 @@ def main():
     df_stations.dropna(inplace=True)
     df_types = bike_rentals[['Ride_Id', 'Rideable_Type', 'Member_Casual']].copy()
     df_types.dropna(inplace=True)
-    
+
     df_weather = create_weather_df(weather)
     logger.info("Weather dataframe created successfully")
 
-    df_time.to_csv(os.path.join(DATA_FOLDER, 'time.csv'), index=False)
-    df_location.to_csv(os.path.join(DATA_FOLDER, 'location.csv'), index=False)
-    df_stations.to_csv(os.path.join(DATA_FOLDER, 'stations.csv'), index=False)
-    df_types.to_csv(os.path.join(DATA_FOLDER, 'types.csv'), index=False)
-    df_weather.to_csv(os.path.join(DATA_FOLDER, 'weather.csv'), index=False)
+    SAVE_DATA_TO = 'data'
+    os.makedirs(SAVE_DATA_TO, exist_ok=True)
+    df_time.to_csv(os.path.join(SAVE_DATA_TO, 'time.csv'), index=False)
+    df_location.to_csv(os.path.join(SAVE_DATA_TO, 'location.csv'), index=False)
+    df_stations.to_csv(os.path.join(SAVE_DATA_TO, 'stations.csv'), index=False)
+    df_types.to_csv(os.path.join(SAVE_DATA_TO, 'types.csv'), index=False)
+    df_weather.to_csv(os.path.join(SAVE_DATA_TO, 'weather.csv'), index=False)
     logger.info("Dataframes saved successfully")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='CSV Parser')
     parser.add_argument('-d', '--data_folder', help='Data folder path', default=None)
-    parser.add_argument('-r', '--rentals', help='CSV file path for rentals', required=True)
-    parser.add_argument('-w', '--weather', help='CSV file path for weather', required=True)
+    parser.add_argument('-r', '--rentals', help='CSV file path for rentals')
+    parser.add_argument('-w', '--weather', help='CSV file path for weather')
     args = parser.parse_args()
 
-    BIKE_RENTALS_FILE = args.rentals
-    WEATHER_FILE = args.weather
+    if args.data_folder:
+        BIKE_RENTALS_FILE = args.rentals
+    if args.data_folder:
+        WEATHER_FILE = args.weather
+    
     main()
