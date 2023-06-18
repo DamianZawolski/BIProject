@@ -53,6 +53,7 @@ def create_time_df(df: pd.DataFrame) -> pd.DataFrame:
     df_time['Time_Of_The_Day'] = df_time['Started_At'].dt.hour.apply(remap_time)
 
     df_time = df_time[['Ride_Id', 'Ride_Length', 'Duration', 'Time_Of_The_Day', 'Day', 'Date']]
+    df_time.dropna(inplace=True)
     return df_time
 
 
@@ -75,6 +76,8 @@ def create_weather_df(df: pd.DataFrame) -> pd.DataFrame:
     df_weather['Wind_Speed'] = df_weather['Wind_Speed'].apply(remap_wind)
     df_weather['Temperature'] = df_weather['Temperature'].apply(remap_temperature)
     df_weather['Cloudcover'] = df_weather['Cloudcover'].apply(remap_cloudcover)
+    df_weather.dropna(inplace=True)
+
     return df_weather
 
 
@@ -94,10 +97,13 @@ def main():
     df_time = create_time_df(bike_rentals)
     logger.info("Time dataframe created successfully")
     df_location = bike_rentals[['Ride_Id', 'Start_Station_Id', 'End_Station_Id']].copy()
+    df_location.dropna(inplace=True)
     df_stations = bike_rentals[['Start_Station_Id', 'Start_Station_Name', 'Start_Lat', 'Start_Lng']].copy()
     df_stations = df_stations.drop_duplicates(subset=['Start_Station_Id'])
+    df_stations.dropna(inplace=True)
     df_types = bike_rentals[['Ride_Id', 'Rideable_Type', 'Member_Casual']].copy()
-
+    df_types.dropna(inplace=True)
+    
     df_weather = create_weather_df(weather)
     logger.info("Weather dataframe created successfully")
 
