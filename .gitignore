@@ -1,2 +1,3 @@
 data/tripdata_connected.csv
 data/weather_data.csv
+*.csv
