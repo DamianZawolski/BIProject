@@ -20,6 +20,7 @@ RENTAL_COLUMNS = ['Ride_Id', 'Rideable_Type', 'Started_At', 'Ended_At',
 WEATHER_COLUMNS = ['time', 'temperature_2m (°C)', 'precipitation (mm)', 'cloudcover (%)',
        'windspeed_10m (km/h)', 'latitude', 'longitude', 'elevation',
        'utc_offset_seconds', 'timezone', 'timezone_abbreviation']
+SAVE_DATA_TO = 'data'
 
 
 def load_rentals_data(filename=BIKE_RENTALS_FILE, data_folder=DATA_FOLDER):
@@ -94,20 +95,34 @@ def main():
         logger.error("Columns are mismatched")
         sys.exit(1)
 
+
+    # creating rentals table
+    df_rentals = bike_rentals[['Ride_Id', 'Started_At', 'Ended_At']].copy()
+    df_rentals['Started_At'] = pd.to_datetime(df_rentals['Started_At'], format='%m/%d/%Y %H:%M')
+    df_rentals['Ended_At'] = pd.to_datetime(df_rentals['Ended_At'], format='%m/%d/%Y %H:%M')
+    df_rentals['Date'] = df_rentals['Started_At'].dt.date
+
+    # creatin time table
     df_time = create_time_df(bike_rentals)
     logger.info("Time dataframe created successfully")
+
+    # creating location table
     df_location = bike_rentals[['Ride_Id', 'Start_Station_Id', 'End_Station_Id']].copy()
     df_location.dropna(inplace=True)
+
+    # creating stations table
     df_stations = bike_rentals[['Start_Station_Id', 'Start_Station_Name', 'Start_Lat', 'Start_Lng']].copy()
     df_stations = df_stations.drop_duplicates(subset=['Start_Station_Id'])
     df_stations.dropna(inplace=True)
+
+    # creating types table
     df_types = bike_rentals[['Ride_Id', 'Rideable_Type', 'Member_Casual']].copy()
     df_types.dropna(inplace=True)
 
     df_weather = create_weather_df(weather)
     logger.info("Weather dataframe created successfully")
 
-    SAVE_DATA_TO = 'data'
+    # saveing all df to csv files    
     os.makedirs(SAVE_DATA_TO, exist_ok=True)
     df_time.to_csv(os.path.join(SAVE_DATA_TO, 'time.csv'), index=False)
     df_location.to_csv(os.path.join(SAVE_DATA_TO, 'location.csv'), index=False)
